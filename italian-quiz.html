@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parole — Italian Vocabulary</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f5f2;
+    --surface: #ffffff;
+    --border: #e8e4de;
+    --text: #1a1814;
+    --muted: #8a8278;
+    --accent: #2c5f2e;
+    --accent-light: #e8f0e8;
+    --wrong: #8b2020;
+    --wrong-light: #f5e8e8;
+    --highlight-bg: #f0ebe0;
+    --highlight-border: #c8b88a;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 48px;
+  }
+
+  header {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .logo span {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 1rem;
+    margin-left: 6px;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .icon-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .icon-btn:hover { background: var(--surface); color: var(--text); border-color: #ccc; }
+
+  /* Progress bar */
+  .progress-wrap {
+    width: 100%;
+    max-width: 640px;
+    margin-bottom: 28px;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+
+  /* Card */
+  .card {
+    width: 100%;
+    max-width: 640px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 40px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+
+  .word-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .italian-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .speak-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 1.1rem;
+    padding: 4px;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+    line-height: 1;
+  }
+  .speak-btn:hover { color: var(--text); background: var(--bg); }
+
+  .sentence-wrap {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: var(--highlight-bg);
+    border-left: 3px solid var(--highlight-border);
+    border-radius: 0 8px 8px 0;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #3a3428;
+  }
+
+  .sentence-wrap mark {
+    background: none;
+    color: inherit;
+    font-weight: 600;
+    font-style: italic;
+    text-decoration: underline;
+    text-decoration-color: var(--highlight-border);
+    text-underline-offset: 3px;
+  }
+
+  .prompt {
+    margin-top: 24px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* Answer buttons */
+  .answers {
+    width: 100%;
+    max-width: 640px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .ans-btn {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ans-btn .ans-letter {
+    display: inline-flex;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 500;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .ans-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .ans-btn:hover:not(:disabled) .ans-letter {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .ans-btn.correct {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    animation: pulse-correct 0.4s ease;
+  }
+
+  .ans-btn.correct .ans-letter {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .ans-btn.wrong {
+    border-color: var(--wrong);
+    background: var(--wrong-light);
+    animation: shake 0.35s ease;
+  }
+
+  .ans-btn.wrong .ans-letter {
+    background: var(--wrong);
+    color: white;
+    border-color: var(--wrong);
+  }
+
+  .ans-btn:disabled { cursor: default; }
+
+  @keyframes pulse-correct {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    60% { transform: translateX(5px); }
+  }
+
+  /* Feedback bar */
+  .feedback {
+    width: 100%;
+    max-width: 640px;
+    padding: 14px 20px;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .feedback.show { display: flex; animation: fadeIn 0.2s ease; }
+  .feedback.correct-fb { background: var(--accent-light); color: #1a3d1b; border: 1px solid #b8d4b9; }
+  .feedback.wrong-fb { background: var(--wrong-light); color: #5a1010; border: 1px solid #e0b8b8; }
+
+  .feedback-text { flex: 1; }
+  .feedback-text strong { display: block; margin-bottom: 2px; }
+
+  .next-btn {
+    background: var(--text);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+  }
+  .next-btn:hover { opacity: 0.8; }
+
+  /* Mark learned */
+  .word-actions {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .learned-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .learned-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+  .learned-btn.is-learned { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+
+  /* Stats strip */
+  .stats-strip {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .stat {
+    flex: 1;
+    padding: 14px 16px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .stat-lbl {
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Loading / setup screens */
+  .screen {
+    width: 100%;
+    max-width: 640px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+  .screen.active { display: flex; }
+
+  .setup-card {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 40px;
+    box-shadow: var(--shadow);
+  }
+
+  .setup-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+
+  .setup-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .setup-card p a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .setup-card p a:hover { text-decoration: underline; }
+
+  .field-label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .text-input {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color 0.15s;
+    margin-bottom: 16px;
+  }
+  .text-input:focus { outline: none; border-color: var(--accent); }
+
+  .primary-btn {
+    width: 100%;
+    background: var(--text);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    margin-top: 4px;
+  }
+  .primary-btn:hover { opacity: 0.8; }
+
+  .error-msg {
+    font-size: 0.82rem;
+    color: var(--wrong);
+    margin-top: -8px;
+    margin-bottom: 12px;
+    display: none;
+  }
+
+  .instructions {
+    margin-top: 28px;
+    padding: 20px;
+    background: var(--bg);
+    border-radius: 10px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .instructions strong { color: var(--text); display: block; margin-bottom: 6px; }
+  .instructions code {
+    font-family: 'Courier New', monospace;
+    background: var(--border);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+
+  /* Loading state */
+  .spinner {
+    width: 28px; height: 28px;
+    border: 2.5px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 48px auto;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .sheet-sample {
+    margin-top: 16px;
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .sheet-sample table {
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .sheet-sample th {
+    background: var(--text);
+    color: white;
+    padding: 7px 12px;
+    text-align: left;
+    font-weight: 500;
+  }
+
+  .sheet-sample td {
+    padding: 7px 12px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .sheet-sample tr:hover td { background: var(--bg); }
+
+  /* End screen */
+  .end-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .end-sub {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .end-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .end-actions button {
+    flex: 1;
+    min-width: 140px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+
+  .btn-primary { background: var(--text); color: white; border: none; }
+  .btn-primary:hover { opacity: 0.8; }
+  .btn-secondary { background: none; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-secondary:hover { border-color: #aaa; }
+
+  @media (max-width: 480px) {
+    .card { padding: 24px 20px; }
+    .italian-word { font-size: 2rem; }
+    .answers { grid-template-columns: 1fr; }
+    .setup-card { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Parole <span>Italian vocab</span></div>
+  <div class="header-actions">
+    <button class="icon-btn" id="exportBtn" title="Export progress">↓ Export</button>
+    <button class="icon-btn" id="importBtnTrigger" title="Import progress">↑ Import</button>
+    <input type="file" id="importFile" accept=".json" style="display:none">
+    <button class="icon-btn" id="settingsBtn">⚙ Settings</button>
+  </div>
+</header>
+
+<!-- SETUP SCREEN -->
+<div class="screen active" id="setupScreen">
+  <div class="setup-card">
+    <h2>Connect your word list</h2>
+    <p>Paste your Google Sheets CSV URL below. <a href="#" id="howToLink">How do I get this?</a></p>
+
+    <div class="field-label">Google Sheets CSV URL</div>
+    <input class="text-input" id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv" />
+    <div class="error-msg" id="urlError">Could not load the sheet. Make sure the URL ends in pub?output=csv. If it keeps failing, wait a moment and try again.</div>
+
+    <button class="primary-btn" id="loadSheetBtn">Load word list →</button>
+
+    <div class="instructions" id="howToInstructions" style="display:none">
+      <strong>How to publish your Google Sheet as CSV:</strong>
+      1. Open your sheet in Google Sheets<br>
+      2. Go to <strong>File → Share → Publish to web</strong><br>
+      3. Choose <strong>Entire document</strong> and <strong>Comma-separated values (.csv)</strong><br>
+      4. Click <strong>Publish</strong> and copy the URL<br><br>
+      Your sheet must have these column headers in row 1:<br>
+      <code>italian_word</code> &nbsp; <code>english_meaning</code> &nbsp; <code>sentence</code> &nbsp; <code>option_2</code> &nbsp; <code>option_3</code> &nbsp; <code>option_4</code>
+      <div class="sheet-sample">
+        <table>
+          <tr>
+            <th>italian_word</th><th>english_meaning</th><th>sentence</th><th>option_2</th><th>option_3</th><th>option_4</th>
+          </tr>
+          <tr>
+            <td>cane</td><td>dog</td><td>Il cane corre nel parco.</td><td>cat</td><td>horse</td><td>bird</td>
+          </tr>
+          <tr>
+            <td>libro</td><td>book</td><td>Ho letto un bel libro ieri.</td><td>pen</td><td>table</td><td>chair</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING SCREEN -->
+<div class="screen" id="loadingScreen">
+  <div class="spinner"></div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div class="screen" id="quizScreen">
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="progressLabel">Question 1</span>
+      <span id="streakLabel">🔥 0 streak</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="word-label">What does this word mean?</div>
+    <div class="italian-word">
+      <span id="wordDisplay"></span>
+      <button class="speak-btn" id="speakBtn" title="Pronounce">🔊</button>
+    </div>
+    <div class="sentence-wrap" id="sentenceDisplay"></div>
+    <div class="prompt">Choose the correct English translation</div>
+  </div>
+
+  <div class="answers" id="answersGrid"></div>
+
+  <div class="feedback" id="feedbackBar">
+    <div class="feedback-text">
+      <strong id="feedbackTitle"></strong>
+      <span id="feedbackSub"></span>
+    </div>
+    <button class="next-btn" id="nextBtn">Next →</button>
+  </div>
+
+  <div class="word-actions">
+    <button class="learned-btn" id="learnedBtn">
+      <span id="learnedIcon">✓</span>
+      <span id="learnedLabel">Mark as learned</span>
+    </button>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat">
+      <div class="stat-val" id="statCorrect">0</div>
+      <div class="stat-lbl">Correct</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="statWrong">0</div>
+      <div class="stat-lbl">Wrong</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="statLearned">0</div>
+      <div class="stat-lbl">Learned</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="statTotal">0</div>
+      <div class="stat-lbl">Total words</div>
+    </div>
+  </div>
+</div>
+
+<!-- END SCREEN -->
+<div class="screen" id="endScreen">
+  <div class="card" style="text-align:center">
+    <div class="end-title">Session complete!</div>
+    <div class="end-sub" id="endSub"></div>
+    <div class="end-actions">
+      <button class="btn-primary" id="restartBtn">Another round →</button>
+      <button class="btn-secondary" id="backToSettingsBtn">Change sheet</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'parole_progress_v1';
+const SHEET_KEY   = 'parole_sheet_url';
+const LEARNED_FREQ = 0.1; // 10% chance learned words appear
+const SESSION_SIZE = 20;
+
+let words = [];       // [{italian_word, english_meaning, sentence, option_2, option_3, option_4}]
+let progress = {};    // keyed by italian_word: {score, seen, correct, wrong, learned}
+let sessionQueue = [];
+let currentIdx = 0;
+let currentWord = null;
+let answered = false;
+let streak = 0;
+let sessionCorrect = 0;
+let sessionWrong = 0;
+
+// ─── Persistence ─────────────────────────────────────────────────────────────
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+}
+
+function saveProgress() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+}
+
+function getWordProgress(word) {
+  if (!progress[word]) {
+    progress[word] = { score: 0, seen: 0, correct: 0, wrong: 0, learned: false };
+  }
+  return progress[word];
+}
+
+// ─── Spaced repetition weight ─────────────────────────────────────────────────
+function getWeight(word) {
+  const p = getWordProgress(word);
+  if (p.learned) return LEARNED_FREQ;
+  // Higher weight = more likely to appear. Starts at 1, increases on wrong, decreases on correct.
+  const base = 1 + (p.wrong * 0.5) - (p.correct * 0.2);
+  return Math.max(0.1, Math.min(base, 5));
+}
+
+function buildSessionQueue() {
+  // Weighted random sample, SESSION_SIZE cards
+  const pool = words.map(w => ({ word: w, weight: getWeight(w.italian_word) }));
+  const total = pool.reduce((s, x) => s + x.weight, 0);
+  const queue = [];
+  for (let i = 0; i < SESSION_SIZE && words.length > 0; i++) {
+    let r = Math.random() * total;
+    for (const item of pool) {
+      r -= item.weight;
+      if (r <= 0) { queue.push({ ...item.word }); break; }
+    }
+    // fallback
+    if (queue.length <= i) queue.push({ ...words[Math.floor(Math.random() * words.length)] });
+  }
+  return queue;
+}
+
+// ─── CSV Parsing ──────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/\r/g,''));
+  return lines.slice(1).map(line => {
+    // Handle quoted commas
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let c of line) {
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+      else { cur += c; }
+    }
+    cols.push(cur.trim().replace(/\r/g,''));
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = cols[i] || ''; });
+    return obj;
+  }).filter(r => r.italian_word && r.english_meaning);
+}
+
+// ─── Load sheet ───────────────────────────────────────────────────────────────
+async function fetchViaProxy(url) {
+  const encoded = encodeURIComponent(url);
+  const proxies = [
+    // corsproxy.io - simple, returns raw text
+    { url: `https://corsproxy.io/?${encoded}`, extract: r => r.text() },
+    // allorigins - returns JSON wrapper
+    { url: `https://api.allorigins.win/get?url=${encoded}`, extract: async r => { const d = await r.json(); return d.contents; } },
+    // cors-anywhere via herokuapp
+    { url: `https://cors-anywhere.herokuapp.com/${url}`, extract: r => r.text(), headers: { 'X-Requested-With': 'XMLHttpRequest' } },
+  ];
+
+  for (const proxy of proxies) {
+    try {
+      const res = await fetch(proxy.url, {
+        headers: proxy.headers || {},
+        signal: AbortSignal.timeout(8000)
+      });
+      if (!res.ok) continue;
+      const text = await proxy.extract(res);
+      if (text && text.includes('italian_word')) return text;
+    } catch (e) { continue; }
+  }
+  throw new Error('All proxies failed');
+}
+
+async function loadSheet(url) {
+  showScreen('loadingScreen');
+  document.getElementById('urlError').style.display = 'none';
+  try {
+    const csvText = await fetchViaProxy(url);
+    words = parseCSV(csvText);
+    if (words.length === 0) throw new Error('No words found');
+    localStorage.setItem(SHEET_KEY, url);
+    progress = loadProgress();
+    startSession();
+  } catch (e) {
+    showScreen('setupScreen');
+    document.getElementById('urlError').style.display = 'block';
+  }
+}
+
+// ─── Quiz flow ────────────────────────────────────────────────────────────────
+function startSession() {
+  sessionQueue = buildSessionQueue();
+  currentIdx = 0;
+  sessionCorrect = 0;
+  sessionWrong = 0;
+  streak = 0;
+  showScreen('quizScreen');
+  updateStats();
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentIdx >= sessionQueue.length) {
+    showEndScreen();
+    return;
+  }
+
+  answered = false;
+  currentWord = sessionQueue[currentIdx];
+  const p = getWordProgress(currentWord.italian_word);
+  p.seen++;
+  saveProgress();
+
+  // Word
+  document.getElementById('wordDisplay').textContent = currentWord.italian_word;
+
+  // Sentence with highlighted word
+  const sentence = currentWord.sentence || '';
+  const regex = new RegExp(`\\b${currentWord.italian_word}\\b`, 'gi');
+  const highlighted = sentence.replace(regex, match => `<mark>${match}</mark>`);
+  document.getElementById('sentenceDisplay').innerHTML = highlighted || `<em>${currentWord.italian_word}</em>`;
+
+  // Progress
+  document.getElementById('progressLabel').textContent = `Question ${currentIdx + 1} of ${sessionQueue.length}`;
+  document.getElementById('progressFill').style.width = `${(currentIdx / sessionQueue.length) * 100}%`;
+  document.getElementById('streakLabel').textContent = streak > 1 ? `🔥 ${streak} streak` : '';
+
+  // Learned state
+  updateLearnedBtn();
+
+  // Answers
+  const options = shuffle([
+    currentWord.english_meaning,
+    currentWord.option_2,
+    currentWord.option_3,
+    currentWord.option_4
+  ]).filter(Boolean);
+
+  const grid = document.getElementById('answersGrid');
+  grid.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'ans-btn';
+    btn.innerHTML = `<span class="ans-letter">${letters[i]}</span>${opt}`;
+    btn.addEventListener('click', () => handleAnswer(opt, btn));
+    grid.appendChild(btn);
+  });
+
+  // Hide feedback
+  const fb = document.getElementById('feedbackBar');
+  fb.className = 'feedback';
+  fb.style.display = '';
+}
+
+function handleAnswer(chosen, btn) {
+  if (answered) return;
+  answered = true;
+
+  const correct = chosen === currentWord.english_meaning;
+  const p = getWordProgress(currentWord.italian_word);
+
+  // Update score
+  if (correct) {
+    p.correct++;
+    p.score = Math.min(p.score + 1, 10);
+    streak++;
+    sessionCorrect++;
+  } else {
+    p.wrong++;
+    p.score = Math.max(p.score - 1, -5);
+    streak = 0;
+    sessionWrong++;
+  }
+  saveProgress();
+  updateStats();
+
+  // Style buttons
+  const allBtns = document.querySelectorAll('.ans-btn');
+  allBtns.forEach(b => {
+    b.disabled = true;
+    const label = b.textContent.slice(1); // strip letter
+    if (label === currentWord.english_meaning) b.classList.add('correct');
+  });
+  if (!correct) btn.classList.add('wrong');
+
+  // Feedback
+  const fb = document.getElementById('feedbackBar');
+  fb.classList.add('show', correct ? 'correct-fb' : 'wrong-fb');
+  document.getElementById('feedbackTitle').textContent = correct ? '✓ Correct!' : '✗ Not quite';
+  document.getElementById('feedbackSub').textContent = correct
+    ? streak > 2 ? `${streak} in a row — great work!` : 'Keep it up.'
+    : `The answer was: ${currentWord.english_meaning}`;
+
+  // Update streak display
+  document.getElementById('streakLabel').textContent = streak > 1 ? `🔥 ${streak} streak` : '';
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  currentIdx++;
+  showQuestion();
+});
+
+// ─── Speak ────────────────────────────────────────────────────────────────────
+document.getElementById('speakBtn').addEventListener('click', () => {
+  if (!currentWord) return;
+  const utter = new SpeechSynthesisUtterance(currentWord.italian_word);
+  utter.lang = 'it-IT';
+  utter.rate = 0.85;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utter);
+});
+
+// ─── Learned toggle ───────────────────────────────────────────────────────────
+document.getElementById('learnedBtn').addEventListener('click', () => {
+  if (!currentWord) return;
+  const p = getWordProgress(currentWord.italian_word);
+  p.learned = !p.learned;
+  saveProgress();
+  updateLearnedBtn();
+  updateStats();
+});
+
+function updateLearnedBtn() {
+  if (!currentWord) return;
+  const p = getWordProgress(currentWord.italian_word);
+  const btn = document.getElementById('learnedBtn');
+  btn.classList.toggle('is-learned', p.learned);
+  document.getElementById('learnedLabel').textContent = p.learned ? 'Learned ✓' : 'Mark as learned';
+}
+
+// ─── Stats ────────────────────────────────────────────────────────────────────
+function updateStats() {
+  let totalCorrect = 0, totalWrong = 0, totalLearned = 0;
+  words.forEach(w => {
+    const p = progress[w.italian_word];
+    if (!p) return;
+    totalCorrect += p.correct || 0;
+    totalWrong += p.wrong || 0;
+    if (p.learned) totalLearned++;
+  });
+  document.getElementById('statCorrect').textContent = totalCorrect;
+  document.getElementById('statWrong').textContent = totalWrong;
+  document.getElementById('statLearned').textContent = totalLearned;
+  document.getElementById('statTotal').textContent = words.length;
+}
+
+// ─── End screen ───────────────────────────────────────────────────────────────
+function showEndScreen() {
+  showScreen('endScreen');
+  const pct = sessionQueue.length ? Math.round((sessionCorrect / sessionQueue.length) * 100) : 0;
+  document.getElementById('endSub').textContent =
+    `You got ${sessionCorrect} of ${sessionQueue.length} correct (${pct}%) this session.`;
+  document.getElementById('progressFill').style.width = '100%';
+}
+
+document.getElementById('restartBtn').addEventListener('click', startSession);
+document.getElementById('backToSettingsBtn').addEventListener('click', () => showScreen('setupScreen'));
+
+// ─── Setup screen ─────────────────────────────────────────────────────────────
+document.getElementById('howToLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  const el = document.getElementById('howToInstructions');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+});
+
+document.getElementById('loadSheetBtn').addEventListener('click', () => {
+  const url = document.getElementById('sheetUrl').value.trim();
+  if (!url) { document.getElementById('urlError').style.display = 'block'; return; }
+  loadSheet(url);
+});
+
+document.getElementById('settingsBtn').addEventListener('click', () => {
+  showScreen('setupScreen');
+  const saved = localStorage.getItem(SHEET_KEY);
+  if (saved) document.getElementById('sheetUrl').value = saved;
+});
+
+// ─── Export / Import ──────────────────────────────────────────────────────────
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const data = JSON.stringify({ progress, sheet: localStorage.getItem(SHEET_KEY) }, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `parole-progress-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+});
+
+document.getElementById('importBtnTrigger').addEventListener('click', () => {
+  document.getElementById('importFile').click();
+});
+
+document.getElementById('importFile').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (data.progress) {
+        progress = data.progress;
+        saveProgress();
+        alert('Progress imported successfully!');
+        updateStats();
+      }
+      if (data.sheet) {
+        localStorage.setItem(SHEET_KEY, data.sheet);
+        document.getElementById('sheetUrl').value = data.sheet;
+      }
+    } catch { alert('Could not read file.'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+const savedUrl = localStorage.getItem(SHEET_KEY);
+if (savedUrl) {
+  document.getElementById('sheetUrl').value = savedUrl;
+  loadSheet(savedUrl);
+}
+</script>
+</body>
+</html>
