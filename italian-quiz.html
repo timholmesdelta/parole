@@ -191,6 +191,22 @@
     animation: fadeIn 0.3s ease;
   }
   .translation-reveal.show { display: block; }
+  .translation-reveal .trans-word {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .translation-reveal .trans-sentence {
+    font-size: 0.88rem;
+    color: #2a4a2b;
+    font-style: italic;
+    border-top: 1px solid #c0d8c0;
+    padding-top: 8px;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
   .translation-reveal .trans-label {
     font-size: 0.7rem;
     text-transform: uppercase;
@@ -723,6 +739,7 @@ const LEARNED_FREQ = 0.1; // 10% chance learned words appear
 const SESSION_SIZE = 20;
 
 let words = [];       // [{italian_word, english_meaning, sentence, option_2, option_3, option_4}]
+let currentSentenceTranslation = '';
 let progress = {};    // keyed by italian_word: {score, seen, correct, wrong, learned}
 let sessionQueue = [];
 let currentIdx = 0;
@@ -864,12 +881,19 @@ function showQuestion() {
   // Word
   document.getElementById('wordDisplay').textContent = currentWord.italian_word;
 
-  // Pick a random sentence from sentence, sentence_2, sentence_3 ... whichever are filled
-  const sentenceOptions = ['sentence','sentence_2','sentence_3','sentence_4','sentence_5']
-    .map(k => currentWord[k]).filter(Boolean);
-  const sentence = sentenceOptions.length
-    ? sentenceOptions[Math.floor(Math.random() * sentenceOptions.length)]
-    : '';
+  // Pick a random sentence + its paired translation
+  const sentencePairs = [
+    { s: 'sentence',   t: 'sentence_translation' },
+    { s: 'sentence_2', t: 'sentence_2_translation' },
+    { s: 'sentence_3', t: 'sentence_3_translation' },
+    { s: 'sentence_4', t: 'sentence_4_translation' },
+    { s: 'sentence_5', t: 'sentence_5_translation' },
+  ].filter(p => currentWord[p.s]);
+  const pair = sentencePairs.length
+    ? sentencePairs[Math.floor(Math.random() * sentencePairs.length)]
+    : { s: 'sentence', t: 'sentence_translation' };
+  const sentence = currentWord[pair.s] || '';
+  currentSentenceTranslation = currentWord[pair.t] || '';
   const regex = new RegExp(`\\b${currentWord.italian_word}\\b`, 'gi');
   const highlighted = sentence.replace(regex, match => `<mark>${match}</mark>`);
   document.getElementById('sentenceDisplay').innerHTML = highlighted || `<em>${currentWord.italian_word}</em>`;
@@ -955,7 +979,10 @@ function handleAnswer(chosen, btn) {
 
   // Show translation reveal
   const tr2 = document.getElementById('translationReveal');
-  tr2.innerHTML = `<span class="trans-label">English translation</span>${currentWord.english_meaning}`;
+  const sentenceLine = currentSentenceTranslation
+    ? `<div class="trans-sentence">${currentSentenceTranslation}</div>`
+    : '';
+  tr2.innerHTML = `<span class="trans-label">English translation</span><span class="trans-word">${currentWord.english_meaning}</span>${sentenceLine}`;
   tr2.classList.add('show');
 }
 
