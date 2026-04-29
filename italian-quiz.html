@@ -207,6 +207,14 @@
     margin-top: 4px;
     line-height: 1.5;
   }
+  .translation-reveal .trans-missing {
+    color: var(--muted) !important;
+    font-style: normal !important;
+    font-size: 0.78rem !important;
+    border-top: none !important;
+    padding-top: 0 !important;
+    margin-top: 2px !important;
+  }
   .translation-reveal .trans-label {
     font-size: 0.7rem;
     text-transform: uppercase;
@@ -977,12 +985,14 @@ function handleAnswer(chosen, btn) {
   // Update streak display
   document.getElementById('streakLabel').textContent = streak > 1 ? `🔥 ${streak} streak` : '';
 
-  // Show translation reveal
+  // Show translation reveal — always show word meaning, sentence translation if available
   const tr2 = document.getElementById('translationReveal');
   const sentenceLine = currentSentenceTranslation
-    ? `<div class="trans-sentence">${currentSentenceTranslation}</div>`
-    : '';
+    ? `<div class="trans-sentence">"${currentSentenceTranslation}"</div>`
+    : '<div class="trans-sentence trans-missing">Add a sentence_translation column to your sheet to see the full translation here.</div>';
   tr2.innerHTML = `<span class="trans-label">English translation</span><span class="trans-word">${currentWord.english_meaning}</span>${sentenceLine}`;
+  tr2.classList.remove('show'); // force reflow so animation replays
+  void tr2.offsetWidth;
   tr2.classList.add('show');
 }
 
