@@ -853,6 +853,9 @@ async function loadSheet(url) {
     const csvText = await fetchViaProxy(url);
     words = parseCSV(csvText);
     if (words.length === 0) throw new Error('No words found');
+    // DEBUG — remove once working
+    console.log('First word keys:', Object.keys(words[0]));
+    console.log('First word:', JSON.stringify(words[0]));
     localStorage.setItem(SHEET_KEY, url);
     progress = loadProgress();
     startSession();
@@ -902,6 +905,7 @@ function showQuestion() {
     : { s: 'sentence', t: 'sentence_translation' };
   const sentence = currentWord[pair.s] || '';
   currentSentenceTranslation = currentWord[pair.t] || '';
+  console.log('Sentence key:', pair.t, '→', currentSentenceTranslation || '(empty)');
   const regex = new RegExp(`\\b${currentWord.italian_word}\\b`, 'gi');
   const highlighted = sentence.replace(regex, match => `<mark>${match}</mark>`);
   document.getElementById('sentenceDisplay').innerHTML = highlighted || `<em>${currentWord.italian_word}</em>`;
