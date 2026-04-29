@@ -179,6 +179,28 @@
     text-underline-offset: 3px;
   }
 
+  .translation-reveal {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: var(--accent-light);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    color: var(--accent);
+    font-weight: 500;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .translation-reveal.show { display: block; }
+  .translation-reveal .trans-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 3px;
+    display: block;
+    font-weight: 400;
+  }
+
   .prompt {
     margin-top: 24px;
     font-size: 0.9rem;
@@ -641,6 +663,7 @@
     </div>
     <div class="sentence-wrap" id="sentenceDisplay"></div>
     <div class="prompt">Choose the correct English translation</div>
+    <div class="translation-reveal" id="translationReveal"></div>
   </div>
 
   <div class="answers" id="answersGrid"></div>
@@ -841,11 +864,19 @@ function showQuestion() {
   // Word
   document.getElementById('wordDisplay').textContent = currentWord.italian_word;
 
-  // Sentence with highlighted word
-  const sentence = currentWord.sentence || '';
+  // Pick a random sentence from sentence, sentence_2, sentence_3 ... whichever are filled
+  const sentenceOptions = ['sentence','sentence_2','sentence_3','sentence_4','sentence_5']
+    .map(k => currentWord[k]).filter(Boolean);
+  const sentence = sentenceOptions.length
+    ? sentenceOptions[Math.floor(Math.random() * sentenceOptions.length)]
+    : '';
   const regex = new RegExp(`\\b${currentWord.italian_word}\\b`, 'gi');
   const highlighted = sentence.replace(regex, match => `<mark>${match}</mark>`);
   document.getElementById('sentenceDisplay').innerHTML = highlighted || `<em>${currentWord.italian_word}</em>`;
+
+  // Hide translation reveal
+  const tr = document.getElementById('translationReveal');
+  tr.className = 'translation-reveal';
 
   // Progress
   document.getElementById('progressLabel').textContent = `Question ${currentIdx + 1} of ${sessionQueue.length}`;
@@ -921,6 +952,11 @@ function handleAnswer(chosen, btn) {
 
   // Update streak display
   document.getElementById('streakLabel').textContent = streak > 1 ? `🔥 ${streak} streak` : '';
+
+  // Show translation reveal
+  const tr2 = document.getElementById('translationReveal');
+  tr2.innerHTML = `<span class="trans-label">English translation</span>${currentWord.english_meaning}`;
+  tr2.classList.add('show');
 }
 
 document.getElementById('nextBtn').addEventListener('click', () => {
